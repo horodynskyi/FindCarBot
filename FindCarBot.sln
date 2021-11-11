@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FindCarBot.Domain", "FindCarBot.Domain\FindCarBot.Domain.csproj", "{F280CB50-75EC-4207-AD7B-E063DAC7917E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FindCarBot.WEB", "FindCarBot.WEB\FindCarBot.WEB.csproj", "{B8E57555-E817-42C7-BAEF-B3711244570E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F280CB50-75EC-4207-AD7B-E063DAC7917E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F280CB50-75EC-4207-AD7B-E063DAC7917E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F280CB50-75EC-4207-AD7B-E063DAC7917E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F280CB50-75EC-4207-AD7B-E063DAC7917E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B8E57555-E817-42C7-BAEF-B3711244570E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B8E57555-E817-42C7-BAEF-B3711244570E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B8E57555-E817-42C7-BAEF-B3711244570E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B8E57555-E817-42C7-BAEF-B3711244570E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
