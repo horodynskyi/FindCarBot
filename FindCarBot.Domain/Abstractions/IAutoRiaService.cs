@@ -6,7 +6,10 @@ namespace FindCarBot.Domain.Abstractions
 {
     public interface IAutoRiaService
     {
-        Task GetAllAutoAttributes(string token);
-        Task<List<Mark>> GetTypesOfAuto();
+        Task<List<Mark>> GetMarks();
+        Task<List<BodyStyle>> GetBodyStyles();
+        Task<List<Fuel>> GetFuelTypes();
+        Task<List<GearBox>> GetGearBoxes();
+        Task<List<DriverType>> GetDriverTypes();
     }
 }

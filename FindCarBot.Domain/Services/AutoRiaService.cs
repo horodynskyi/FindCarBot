@@ -24,15 +24,31 @@ namespace FindCarBot.Domain.Services
             _token = configuration["AutoRiaToken"];
             _url = configuration["AutoRiaUrl"];
         }
-
-        public async Task GetAllAutoAttributes(string token)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public async Task<List<Mark>> GetTypesOfAuto()
+        
+        public async Task<List<Mark>> GetMarks()
         {
              return  await  _httpClient.GetFromJsonAsync<List<Mark>>($"{_url}/categories/?api_key={_token}");
         }
+
+        public async Task<List<BodyStyle>> GetBodyStyles()
+        {
+            return  await  _httpClient.GetFromJsonAsync<List<BodyStyle>>($"{_url}/categories/1/bodystyles?api_key={_token}");
+        }
+
+        public async Task<List<Fuel>> GetFuelTypes()
+        {
+            return  await  _httpClient.GetFromJsonAsync<List<Fuel>>($"{_url}/type?api_key={_token}");
+        }
+
+        public async Task<List<GearBox>> GetGearBoxes()
+        {
+            return  await  _httpClient.GetFromJsonAsync<List<GearBox>>($"{_url}/categories/1/gearboxes?api_key={_token}");
+        }
+        
+        public async Task<List<DriverType>> GetDriverTypes()
+        {
+            return  await  _httpClient.GetFromJsonAsync<List<DriverType>>($"{_url}/categories/1/driverTypes?api_key={_token}");
+        }
+        
     }
 }

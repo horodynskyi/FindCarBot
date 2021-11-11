@@ -15,10 +15,35 @@ namespace FindCarBot.WEB.Controllers
             _riaService = riaService;
         }
 
-        [HttpGet]
+        [HttpGet("marks")]
         public async Task<IActionResult> Get()
         {
-            return Ok(await _riaService.GetTypesOfAuto());
+            return Ok(await _riaService.GetMarks());
         }
+        
+        [HttpGet("bodystyles")]
+        public async Task<IActionResult> GetBodyStyles()
+        {
+            return Ok(await _riaService.GetBodyStyles());
+        }
+        
+        [HttpGet("fuel")]
+        public async Task<IActionResult> GetTypeOfFuel()
+        {
+            return Ok(await _riaService.GetFuelTypes());
+        }
+        
+        [HttpGet("gearboxes")]
+        public async Task<IActionResult> GetTypeOfGearBox()
+        {
+            return Ok(await _riaService.GetGearBoxes());
+        }
+        
+        [HttpGet("driverTypes")]
+        public async Task<IActionResult> GetDriverTypes()
+        {
+            return Ok(await _riaService.GetDriverTypes());
+        }
+        
     }
 }
