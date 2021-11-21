@@ -1,6 +1,10 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using FindCarBot.Domain.Abstractions;
+using FindCarBot.Domain.Models;
 using Telegram.Bot;
+using Telegram.Bot.Args;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.ReplyMarkups;
@@ -9,26 +13,38 @@ namespace FindCarBot.Domain.Commands
 {
     public class SearchCommand:TelegramCommand
     {
-        public override string Name => "Search";
-        public override async Task Execute(Message message, ITelegramBotClient client)
+        public override string Name => @"Search";
+        private readonly ISearchService _searchService;
+        private ITelegramBotClient _client;
+        public SearchCommand(ISearchService searchService)
         {
-            var chatId = message.Chat.Id;
-
-            var keyBoard = new ReplyKeyboardMarkup
-            {
-                Keyboard = new[]
-                {
-                    new[]
-                    {
-                        new KeyboardButton("Main"),
-                        new KeyboardButton("Help"),
-                        new KeyboardButton("Search")
-                    }
-                }
-            };
-           // await client.
+            _searchService = searchService;
         }
 
+        public override async Task Execute(Message message, ITelegramBotClient client)
+        {
+            _client = client;
+            var chatId = message.Chat.Id;
+            var keyBoard = await _searchService.GetSearchButtons(new GearBox());
+            
+            client.StartReceiving();
+            client.OnMessage += OnMessageHandler;
+            await client.SendTextMessageAsync(chatId, "Select the mark of the car you are looking for ",
+                parseMode: ParseMode.Html, disableWebPagePreview: false, disableNotification:false, replyToMessageId: 0);
+        }
+        
+        private  void OnMessageHandler(object sender,MessageEventArgs e)
+        {
+            var msg = e.Message;
+            if (msg.Text != null)
+            {
+                Console.WriteLine("Прийшло сообщения:"+msg.Text);
+                _client.StopReceiving();
+                
+            }
+        }
+
+       
         public override bool Contains(Message message)
         {
             if (message.Type != MessageType.Text)

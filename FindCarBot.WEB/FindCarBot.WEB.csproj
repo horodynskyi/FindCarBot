@@ -18,6 +18,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\FindCarBot.Domain\FindCarBot.Domain.csproj" />
+      <ProjectReference Include="..\FindCarBot.IoC\FindCarBot.IoC.csproj" />
     </ItemGroup>
 
 </Project>

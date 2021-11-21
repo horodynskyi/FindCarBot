@@ -1,6 +1,8 @@
 using System;
 using FindCarBot.Domain.Abstractions;
 using FindCarBot.Domain.Services;
+using FindCarBot.IoC;
+using FindCarBot.IoC.Options;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -23,14 +25,17 @@ namespace FindCarBot.WEB
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddTransient<IAutoRiaService, AutoRiaService>();
+            services.AddTransient<ISearchService, SearchService>();
             services.AddHttpClient();
+            //services.Configure<BotOptions>(_configuration.GetSection(BotOptions.Bot));
+            services.Configure<AutoRiaOptions>(_configuration.GetSection(AutoRiaOptions.AutoRia));
+            services.AddTelegramBotClient(_configuration);
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo {Title = "FindCarBot.WEB", Version = "v1"});
             });
             services
                 .AddScoped<ICommandService, CommandService>()
-                .AddTelegramBotClient(_configuration)
                 .AddControllers()
                 .AddNewtonsoftJson(options => 
                 {
@@ -41,7 +46,6 @@ namespace FindCarBot.WEB
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IServiceProvider serviceProvider)
         {
-           
             app.UseRouting();
             if (env.IsDevelopment())
             {

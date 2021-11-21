@@ -1,12 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using FindCarBot.Domain.Models;
 using Telegram.Bot.Types.ReplyMarkups;
 
 namespace FindCarBot.Domain.Abstractions
 {
-    public interface ISearchService
+    public interface ITelegramUiService<T> where T :class
     {
-        Task<ReplyKeyboardMarkup> GetSearchButtons(BaseModel model);
+        IEnumerable<KeyboardButton> KeyboardByParameters(IEnumerable<T> items);
     }
 }

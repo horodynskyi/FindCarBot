@@ -1,21 +1,32 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using FindCarBot.Domain.Abstractions;
+using FindCarBot.Domain.Models;
 using Telegram.Bot.Types.ReplyMarkups;
 
 namespace FindCarBot.Domain.Services
 {
-    public class SearchService :ISearchService
+    public class SearchService : ISearchService 
     {
-        private readonly List<ReplyKeyboardMarkup> _commands;
+        private readonly IAutoRiaService _riaService;
 
-        public SearchService(List<ReplyKeyboardMarkup> commands)
+        public SearchService(IAutoRiaService riaService)
         {
-            _commands = commands;
+            _riaService = riaService;
         }
 
-        public List<TelegramCommand> GetAutoAtributes()
+        public async Task<ReplyKeyboardMarkup> GetSearchButtons(BaseModel model)
         {
-            throw new System.NotImplementedException();
+            var result = await _riaService.GetGearBoxes();
+            
+            
+            return new ReplyKeyboardMarkup
+            {
+              
+            };
         }
+        
+        
     }
 }
