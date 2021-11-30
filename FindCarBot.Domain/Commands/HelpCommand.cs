@@ -9,7 +9,7 @@ namespace FindCarBot.Domain.Commands
 {
     public class HelpCommand: TelegramCommand
     {
-        public override string Name { get; } = "\U0001F4D6 Помощь";
+        public override string Name { get; } = "Help";
         public override async Task Execute(Message message, ITelegramBotClient client)
         {
             var chatId = message.Chat.Id;

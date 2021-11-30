@@ -2,6 +2,9 @@
 {
     public class Mark:BaseModel
     {
-        
+        public static Mark CreateInstance()
+        {
+            return new Mark();
+        }
     }
 }

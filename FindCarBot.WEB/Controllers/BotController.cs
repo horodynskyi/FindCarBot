@@ -3,6 +3,7 @@ using FindCarBot.Domain.Abstractions;
 using Microsoft.AspNetCore.Mvc;
 using Telegram.Bot;
 using Telegram.Bot.Types;
+using Telegram.Bot.Types.Enums;
 
 namespace FindCarBot.WEB.Controllers
 {
@@ -10,12 +11,15 @@ namespace FindCarBot.WEB.Controllers
     [Route("api/message/update")]
     public class BotController : Controller
     {
-        private readonly ITelegramBotClient _telegramBotClient;
+        private readonly ITelegramBotClient _client;
         private readonly ICommandService _commandService;
-        public BotController(ICommandService commandService, ITelegramBotClient telegramBotClient)
+        private readonly IHandleService _handleService;
+        
+        public BotController(ICommandService commandService, ITelegramBotClient client, IHandleService handleService)
         {
             _commandService = commandService;
-            _telegramBotClient = telegramBotClient;
+            _client = client;
+            _handleService = handleService;
         }
 
         [HttpGet]
@@ -30,16 +34,24 @@ namespace FindCarBot.WEB.Controllers
             if (update == null) return Ok();
 
             var message = update.Message;
-
-            foreach (var command in _commandService.Get())
+            
+            if (_commandService.Contains(message,_client))
             {
-                if (command.Contains(message))
-                {
-                    await command.Execute(message, _telegramBotClient);
-                    break;
-                }
+                await _commandService.Execute(message);
+                return Ok();
             }
-            return Ok();
+            else if (await _handleService.Contains(message))
+            {
+                await _handleService.Execute(message);
+                return Ok();
+            }
+            else
+            {
+                await _client.SendTextMessageAsync(message.Chat.Id, "Something wrong, i don`t understand u",
+                    ParseMode.Html);
+                return Ok();
+            }
+            
         }
     }
 }

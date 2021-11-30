@@ -2,6 +2,9 @@
 {
     public class DriverType:BaseModel
     {
-        
+        public DriverType ()
+        {
+            
+        }
     }
 }

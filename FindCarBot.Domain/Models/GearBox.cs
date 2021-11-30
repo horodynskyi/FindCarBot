@@ -2,6 +2,9 @@
 {
     public class GearBox:BaseModel
     {
-        
+        public  GearBox ()
+        {
+            
+        }
     }
 }

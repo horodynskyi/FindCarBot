@@ -2,6 +2,9 @@
 {
     public class Fuel:BaseModel
     {
-        
+        public  Fuel ()
+        {
+            
+        }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Net.Http;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
@@ -11,41 +12,63 @@ using Microsoft.Extensions.Options;
 
 namespace FindCarBot.Domain.Services
 {
-    public class AutoRiaService:IAutoRiaService
+    public class AutoRiaService : IAutoRiaService
     {
-        private readonly AutoRiaOptions _options; 
-        private readonly HttpClient _httpClient;
+        protected readonly AutoRiaOptions Options;
+        protected readonly HttpClient HttpClient;
 
         public AutoRiaService(IConfiguration configuration, HttpClient httpClient, IOptions<AutoRiaOptions> options)
         {
-            _httpClient = httpClient;
-            _options = options.Value;
-        }
-        
-        public async Task<List<Mark>> GetMarks()
-        {
-             return  await  _httpClient.GetFromJsonAsync<List<Mark>>($"{_options.Url}/categories/1/marks?api_key={_options.Token}");
+            HttpClient = httpClient;
+            Options = options.Value;
         }
 
-        public async Task<List<BodyStyle>> GetBodyStyles()
+        public async Task<IEnumerable<Mark>> GetMarks()
         {
-            return  await  _httpClient.GetFromJsonAsync<List<BodyStyle>>($"{_options.Url}/categories/1/bodystyles?api_key={_options.Token}");
+            return await HttpClient.GetFromJsonAsync<IEnumerable<Mark>>(
+                $"{Options.Url}/categories/1/marks?api_key={Options.Token}");
         }
 
-        public async Task<List<Fuel>> GetFuelTypes()
+        public async Task<IEnumerable<BodyStyle>> GetBodyStyles()
         {
-            return  await  _httpClient.GetFromJsonAsync<List<Fuel>>($"{_options.Url}/type?api_key={_options.Token}");
+            return await HttpClient.GetFromJsonAsync<IEnumerable<BodyStyle>>(
+                $"{Options.Url}/categories/1/bodystyles?api_key={Options.Token}");
+        }
+
+        public async Task<IEnumerable<Fuel>> GetFuelTypes()
+        {
+            return await HttpClient.GetFromJsonAsync<IEnumerable<Fuel>>(
+                $"{Options.Url}/type?api_key={Options.Token}");
         }
 
         public async Task<IEnumerable<GearBox>> GetGearBoxes()
         {
-            return  await  _httpClient.GetFromJsonAsync<List<GearBox>>($"{_options.Url}/categories/1/gearboxes?api_key={_options.Token}");
+            return await HttpClient.GetFromJsonAsync<IEnumerable<GearBox>>(
+                $"{Options.Url}/categories/1/gearboxes?api_key={Options.Token}");
         }
-        
-        public async Task<List<DriverType>> GetDriverTypes()
+
+        public async Task<IEnumerable<DriverType>> GetDriverTypes()
         {
-            return  await  _httpClient.GetFromJsonAsync<List<DriverType>>($"{_options.Url}/categories/1/driverTypes?api_key={_options.Token}");
+            return await HttpClient.GetFromJsonAsync<IEnumerable<DriverType>>(
+                $"{Options.Url}/categories/1/driverTypes?api_key={Options.Token}");
         }
-        
+
+        public async Task<IEnumerable<BaseModel>> GetParameters<T>(T entity)
+        {
+            switch (entity)
+            {
+                case GearBox:
+                    return await GetGearBoxes();
+                case DriverType:
+                    return await GetDriverTypes();
+                case Fuel:
+                    return await GetFuelTypes();
+                case BodyStyle:
+                    return await GetBodyStyles();
+                case Mark:
+                    return await GetMarks();
+                default: return Array.Empty<BaseModel>();
+            }
+        }
     }
 }

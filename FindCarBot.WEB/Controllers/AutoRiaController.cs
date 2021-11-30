@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using FindCarBot.Domain.Abstractions;
+using FindCarBot.Domain.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FindCarBot.WEB.Controllers
@@ -10,10 +12,12 @@ namespace FindCarBot.WEB.Controllers
     public class AutoRiaController:ControllerBase
     {
         private readonly IAutoRiaService _riaService;
+        private readonly ISearchService _service;
 
-        public AutoRiaController(IAutoRiaService riaService)
+        public AutoRiaController(IAutoRiaService riaService, ISearchService service)
         {
             _riaService = riaService;
+            _service = service;
         }
 
         [HttpGet("marks")]
@@ -22,11 +26,19 @@ namespace FindCarBot.WEB.Controllers
             return Ok(await _riaService.GetMarks());
         }
         
+        [HttpGet("tests")]
+        public async Task<IActionResult> GetTest()
+        {
+            var result = await _riaService.GetParameters(Mark.CreateInstance());
+            var str = result.FirstOrDefault(x => x.Name == "BMW");
+            return Ok($"{str.Name} + || {str.Value}");
+        }
+        
         [HttpGet("bodystyles")]
         public async Task<IActionResult> GetBodyStyles()
         {
-            
-            return Ok(await _riaService.GetBodyStyles());
+            var result = await _riaService.GetBodyStyles();
+            return Ok(result.OrderBy(x=>x.Value));
         }
         
         [HttpGet("fuel")]

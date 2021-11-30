@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using FindCarBot.Domain.Abstractions;
+using FindCarBot.Domain.Enums;
 using FindCarBot.Domain.Models;
 using Telegram.Bot;
 using Telegram.Bot.Args;
@@ -16,6 +19,8 @@ namespace FindCarBot.Domain.Commands
         public override string Name => @"Search";
         private readonly ISearchService _searchService;
         private ITelegramBotClient _client;
+        private long _chatId;
+       
         public SearchCommand(ISearchService searchService)
         {
             _searchService = searchService;
@@ -24,27 +29,13 @@ namespace FindCarBot.Domain.Commands
         public override async Task Execute(Message message, ITelegramBotClient client)
         {
             _client = client;
-            var chatId = message.Chat.Id;
-            var keyBoard = await _searchService.GetSearchButtons(new GearBox());
+            _chatId = message.Chat.Id; 
+            var keyBoard = await _searchService.GetSearchButtons(new BodyStyle());
+            await client.SendTextMessageAsync(_chatId, "Here you need to select the type of fuel: ", 
+                ParseMode.Html, replyMarkup: keyBoard);
             
-            client.StartReceiving();
-            client.OnMessage += OnMessageHandler;
-            await client.SendTextMessageAsync(chatId, "Select the mark of the car you are looking for ",
-                parseMode: ParseMode.Html, disableWebPagePreview: false, disableNotification:false, replyToMessageId: 0);
         }
         
-        private  void OnMessageHandler(object sender,MessageEventArgs e)
-        {
-            var msg = e.Message;
-            if (msg.Text != null)
-            {
-                Console.WriteLine("Прийшло сообщения:"+msg.Text);
-                _client.StopReceiving();
-                
-            }
-        }
-
-       
         public override bool Contains(Message message)
         {
             if (message.Type != MessageType.Text)

@@ -7,10 +7,12 @@ namespace FindCarBot.Domain.Abstractions
 {
     public interface IAutoRiaService
     {
-        Task<List<Mark>> GetMarks();
-        Task<List<BodyStyle>> GetBodyStyles();
-        Task<List<Fuel>> GetFuelTypes();
+        Task<IEnumerable<Mark>> GetMarks();
+        Task<IEnumerable<BodyStyle>> GetBodyStyles();
+        Task<IEnumerable<Fuel>> GetFuelTypes();
         Task<IEnumerable<GearBox>> GetGearBoxes();
-        Task<List<DriverType>> GetDriverTypes();
+        Task<IEnumerable<DriverType>> GetDriverTypes();
+        Task<IEnumerable<BaseModel>> GetParameters<T>(T entity);
+
     }
 }

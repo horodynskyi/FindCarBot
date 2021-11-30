@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json.Serialization;
 
@@ -24,11 +25,15 @@ namespace FindCarBot.WEB
         
         public void ConfigureServices(IServiceCollection services)
         {
+            
             services.AddTransient<IAutoRiaService, AutoRiaService>();
             services.AddTransient<ISearchService, SearchService>();
+            services.AddTransient<IHandleService, HandleService>();
+            services.AddMemoryCache();
             services.AddHttpClient();
-            //services.Configure<BotOptions>(_configuration.GetSection(BotOptions.Bot));
+           // services.Configure<BotOptions>(_configuration.GetSection(BotOptions.Bot));
             services.Configure<AutoRiaOptions>(_configuration.GetSection(AutoRiaOptions.AutoRia));
+          
             services.AddTelegramBotClient(_configuration);
             services.AddSwaggerGen(c =>
             {
