@@ -31,6 +31,10 @@ namespace FindCarBot.WEB
             services.AddTransient<IHandleService, HandleService>();
             services.AddMemoryCache();
             services.AddHttpClient();
+            services.AddStackExchangeRedisCache(opt =>
+            {
+                opt.Configuration = "localhost:6379";
+            });
            // services.Configure<BotOptions>(_configuration.GetSection(BotOptions.Bot));
             services.Configure<AutoRiaOptions>(_configuration.GetSection(AutoRiaOptions.AutoRia));
           

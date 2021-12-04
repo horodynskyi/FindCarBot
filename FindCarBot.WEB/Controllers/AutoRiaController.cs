@@ -26,12 +26,17 @@ namespace FindCarBot.WEB.Controllers
             return Ok(await _riaService.GetMarks());
         }
         
+        [HttpGet("countries")]
+        public async Task<IActionResult> GetManufacture()
+        {
+            return Ok(await _riaService.GetManufacture());
+        }
+        
         [HttpGet("tests")]
         public async Task<IActionResult> GetTest()
         {
-            var result = await _riaService.GetParameters(Mark.CreateInstance());
-            var str = result.FirstOrDefault(x => x.Name == "BMW");
-            return Ok($"{str.Name} + || {str.Value}");
+            var result = await _service.CreateRequest();
+            return Ok(result);
         }
         
         [HttpGet("bodystyles")]

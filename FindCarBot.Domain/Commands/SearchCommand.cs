@@ -30,8 +30,8 @@ namespace FindCarBot.Domain.Commands
         {
             _client = client;
             _chatId = message.Chat.Id; 
-            var keyBoard = await _searchService.GetSearchButtons(new BodyStyle());
-            await client.SendTextMessageAsync(_chatId, "Here you need to select the type of fuel: ", 
+            var keyBoard = await _searchService.GetSearchButtons(new Manufacture());
+            await client.SendTextMessageAsync(_chatId, "Select country of manufacture: ", 
                 ParseMode.Html, replyMarkup: keyBoard);
             
         }

@@ -2,11 +2,12 @@
 {
     public enum ParametersEnum
     {
-        Mark,
-        ModelAuto,
         Fuel,
+        Manufacture,
+        Mark,
         GearBox,
         BodyStyle,
-        DriverType
+        DriverType,
+        ModelAuto
     }
 }

@@ -45,13 +45,8 @@ namespace FindCarBot.WEB.Controllers
                 await _handleService.Execute(message);
                 return Ok();
             }
-            else
-            {
-                await _client.SendTextMessageAsync(message.Chat.Id, "Something wrong, i don`t understand u",
-                    ParseMode.Html);
-                return Ok();
-            }
-            
+            return Ok();
+                
         }
     }
 }

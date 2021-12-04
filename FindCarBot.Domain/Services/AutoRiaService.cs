@@ -5,7 +5,6 @@ using System.Net.Http.Json;
 using System.Threading.Tasks;
 using FindCarBot.Domain.Abstractions;
 using FindCarBot.Domain.Models;
-using Microsoft.Extensions.Configuration;
 using FindCarBot.IoC.Options;
 using Microsoft.Extensions.Options;
 
@@ -17,7 +16,7 @@ namespace FindCarBot.Domain.Services
         protected readonly AutoRiaOptions Options;
         protected readonly HttpClient HttpClient;
 
-        public AutoRiaService(IConfiguration configuration, HttpClient httpClient, IOptions<AutoRiaOptions> options)
+        public AutoRiaService(HttpClient httpClient, IOptions<AutoRiaOptions> options)
         {
             HttpClient = httpClient;
             Options = options.Value;
@@ -53,8 +52,22 @@ namespace FindCarBot.Domain.Services
                 $"{Options.Url}/categories/1/driverTypes?api_key={Options.Token}");
         }
 
+        public async Task<IEnumerable<Manufacture>> GetManufacture()
+        {
+            
+            return await HttpClient.GetFromJsonAsync<IEnumerable<Manufacture>>(
+                $"{Options.Url}/countries?api_key={Options.Token}");
+        }
+
+        public async Task<IEnumerable<ModelAuto>> GetModelAuto(int value)
+        {
+            return await HttpClient.GetFromJsonAsync<IEnumerable<ModelAuto>>(
+                $"{Options.Url}/categories/1/marks/{value}/models?api_key={Options.Token}");
+        }
+
         public async Task<IEnumerable<BaseModel>> GetParameters<T>(T entity)
         {
+            
             switch (entity)
             {
                 case GearBox:
@@ -67,6 +80,8 @@ namespace FindCarBot.Domain.Services
                     return await GetBodyStyles();
                 case Mark:
                     return await GetMarks();
+                case Manufacture:
+                    return await GetManufacture();
                 default: return Array.Empty<BaseModel>();
             }
         }

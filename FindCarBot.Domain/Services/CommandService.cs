@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using FindCarBot.Domain.Abstractions;
 using FindCarBot.Domain.Commands;
+using Microsoft.Extensions.Caching.Distributed;
 using Telegram.Bot;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
@@ -14,14 +15,15 @@ namespace FindCarBot.Domain.Services
         private readonly List<TelegramCommand> _commands;
         private  ITelegramBotClient _client;
         private TelegramCommand _currentCommand;
-        public CommandService(ISearchService service)
+        public CommandService(ISearchService service,IDistributedCache cache)
         {
             _commands = new List<TelegramCommand>
             {
                 new HelpCommand(),
                 new MainCommand(),
                 new StartCommand(), 
-                new SearchCommand(service)
+                new SearchCommand(service),
+                new DeleteCacheCommand(cache)
             };
         }
 
