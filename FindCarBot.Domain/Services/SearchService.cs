@@ -71,17 +71,14 @@ namespace FindCarBot.Domain.Services
             };
         }
         
-        public async Task<Result> CreateRequest()
+        public async Task<Response> CreateRequest()
         {
             var url =
                 $"{Options.Url}/search?api_key={Options.Token}&category_id=1&brandOrigin[1]=392&s_yers[1]=2012&po_yers[1]=2016&bodystyle%5B4%5D=2&marka_id%5B0%5D=79&model_id%5B0%5D=0&currency=1&type%5B0%5D=1&gearbox%5B0%5D=1&power_name=1&countpage=50&with_photo=1";
             var str = $"{Options.Url}/search/?api_key={Options.Token}";
-            var res = await HttpClient.GetFromJsonAsync<JsonObject>(url);
-            res.TryGetPropertyValue("search_result", out var val);
-            Console.WriteLine(val);
-          
-            var temp = ModelMapper.Map<Result>(res);
-            return temp;
+            var res = await HttpClient.GetFromJsonAsync<Response>(url);
+
+            return res;
         }
     }
 }
