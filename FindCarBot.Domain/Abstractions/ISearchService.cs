@@ -12,6 +12,6 @@ namespace FindCarBot.Domain.Abstractions
     {
         Task<ReplyKeyboardMarkup> GetSearchButtons(BaseModel model);
         Task<ReplyKeyboardMarkup> GetSearchButtons(int value);
-        Task<tmpTmp> CreateRequest();
+        Task<Result> CreateRequest();
     }
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Json;
+using System.Text.Json;
 using System.Text.Json.Nodes;
 using System.Threading.Tasks;
 using FindCarBot.Domain.Abstractions;
@@ -11,6 +12,7 @@ using FindCarBot.IoC.Options;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
+using Newtonsoft.Json;
 using Telegram.Bot.Types.ReplyMarkups;
 
 namespace FindCarBot.Domain.Services
@@ -68,21 +70,17 @@ namespace FindCarBot.Domain.Services
                 ResizeKeyboard = true
             };
         }
-
         
-        public async Task<tmpTmp> CreateRequest()
+        public async Task<Result> CreateRequest()
         {
             var url =
                 $"{Options.Url}/search?api_key={Options.Token}&category_id=1&brandOrigin[1]=392&s_yers[1]=2012&po_yers[1]=2016&bodystyle%5B4%5D=2&marka_id%5B0%5D=79&model_id%5B0%5D=0&currency=1&type%5B0%5D=1&gearbox%5B0%5D=1&power_name=1&countpage=50&with_photo=1";
             var str = $"{Options.Url}/search/?api_key={Options.Token}";
-            var res = await HttpClient.GetFromJsonAsync<object>(url);
-            foreach(var srcProp in res.GetType().GetProperties())
-            {
-                /*var val = destProp.PropertyType; srcProp.GetValue(obj, null);*/
-                   Console.WriteLine(srcProp.GetValue(res, null));
-                
-            }
-            var temp = ModelMapper.Map<tmpTmp>(res);
+            var res = await HttpClient.GetFromJsonAsync<JsonObject>(url);
+            res.TryGetPropertyValue("search_result", out var val);
+            Console.WriteLine(val);
+          
+            var temp = ModelMapper.Map<Result>(res);
             return temp;
         }
     }

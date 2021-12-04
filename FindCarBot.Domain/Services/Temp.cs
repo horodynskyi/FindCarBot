@@ -1,13 +1,13 @@
 ﻿namespace FindCarBot.Domain.Services
 {
-    public class Tmp
+    public class SearchResult
     {
-        public string ids;
+        public string Ids { get; set; }
         
     }
 
-    public class tmpTmp
+    public class Result
     {
-        public Tmp search_result;
+        public SearchResult search_result { get; set; }
     }
 }
