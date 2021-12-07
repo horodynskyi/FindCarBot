@@ -29,6 +29,7 @@ namespace FindCarBot.Domain.Utils
         public string MarkName { get; set; }
         public string ModelName { get; set; }
         public string LinkToView { get; set; }
+        public StateData StateData { get; set; } 
         public PhotoData PhotoData { get; set; }
 
         public override string ToString()
@@ -61,5 +62,9 @@ namespace FindCarBot.Domain.Utils
     {
         public string seoLinkF { get; set; }
     }
-    
+     public class StateData
+    {
+        public string Name { get; set; }
+        public string RegionName { get; set; }
+    }
 }

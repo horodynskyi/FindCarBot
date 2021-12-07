@@ -21,6 +21,11 @@ namespace FindCarBot.WEB.Controllers
             _client = client;
             _handleService = handleService;
         }
+        [HttpGet ("/carinfo")]
+        public async Task<IActionResult> GetCarInfo()
+        {
+            return Ok("Got it");
+        }
 
         [HttpGet]
         public IActionResult Get()

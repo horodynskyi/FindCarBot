@@ -1,10 +1,15 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FindCarBot.Domain", "FindCarBot.Domain\FindCarBot.Domain.csproj", "{F280CB50-75EC-4207-AD7B-E063DAC7917E}"
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FindCarBot.Domain", "FindCarBot.Domain\FindCarBot.Domain.csproj", "{F280CB50-75EC-4207-AD7B-E063DAC7917E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FindCarBot.WEB", "FindCarBot.WEB\FindCarBot.WEB.csproj", "{B8E57555-E817-42C7-BAEF-B3711244570E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FindCarBot.WEB", "FindCarBot.WEB\FindCarBot.WEB.csproj", "{B8E57555-E817-42C7-BAEF-B3711244570E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FindCarBot.IoC", "FindCarBot.IoC\FindCarBot.IoC.csproj", "{F104B1B8-2072-4DA7-90D9-E79622A5491B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FindCarBot.IoC", "FindCarBot.IoC\FindCarBot.IoC.csproj", "{F104B1B8-2072-4DA7-90D9-E79622A5491B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FIndCarBot.Client", "FIndCarBot.Client\FIndCarBot.Client.csproj", "{35D478BF-28B2-433C-8BD7-7C8699F4F235}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -24,5 +29,15 @@ Global
 		{F104B1B8-2072-4DA7-90D9-E79622A5491B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F104B1B8-2072-4DA7-90D9-E79622A5491B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F104B1B8-2072-4DA7-90D9-E79622A5491B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{35D478BF-28B2-433C-8BD7-7C8699F4F235}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{35D478BF-28B2-433C-8BD7-7C8699F4F235}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{35D478BF-28B2-433C-8BD7-7C8699F4F235}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{35D478BF-28B2-433C-8BD7-7C8699F4F235}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {2DD82116-F31E-4C28-A1CC-F31A25059C96}
 	EndGlobalSection
 EndGlobal
