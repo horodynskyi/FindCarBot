@@ -1,0 +1,154 @@
+body {
+	display: flex;
+	height: 100vh;
+	flex-direction: column;
+	background-color: #fdf1ec;
+}
+
+footer{
+	display: block;
+	height 1px;
+	
+}
+
+h1:focus{
+	visibility: hidden;
+}
+.wrapper {
+	height: 800px;
+	width: 1800px;
+	margin: 50px auto 100px;
+	border-radius: 7px 7px 7px 7px;
+	-webkit-box-shadow: 0px 14px 32px 0px rgba(0, 0, 0, 0.15);
+	-moz-box-shadow: 0px 14px 32px 0px rgba(0, 0, 0, 0.15);
+	box-shadow: 0px 14px 32px 0px rgba(0, 0, 0, 0.15);
+}
+
+.product-img {
+	float: left;
+	height: 800px;
+	width: 1200px;
+}
+
+	.product-img img {
+		border-radius: 7px 0 0 7px;
+		object-fit: cover;
+	}
+
+.product-info {
+	float: left;
+	height: 800px;
+	width: 600px;
+	border-radius: 0 7px 10px 7px;
+	background-color: #ffffff;
+}
+
+.product-info-wrapper {
+	height: 660px;
+	margin: 20px 40px;
+}
+
+.product-text {
+	height: 600px;
+	width: 560px;
+}
+
+	.product-text h1 {
+		margin: 0;
+		font-size: 60px;
+		color: #3c3c3c;
+	}
+
+	.product-text h1,
+	.product-price-btn p {
+		font-family: "Bentham", serif;
+	}
+
+	.product-text h2 {
+		margin: 0;
+		font-size: 20px;
+		font-family: "Raleway", sans-serif;
+		font-weight: 400;
+		text-transform: uppercase;
+		color: #a7a7a7;
+		letter-spacing: 0.2em;
+	}
+
+	.product-text span {
+		color: #3c3c3c;
+		font-weight: 600;
+	}
+
+	.product-text ul {
+		list-style: none;
+		padding: 0;
+	}
+
+	.product-text li {
+		max-width: 300px;
+		font-family: "Raleway", sans-serif;
+		font-weight: 500;
+		font-size: 20px;
+		padding-top: 15px;
+		color: #131313;
+	}
+
+.seller-description {
+	width: 500px;
+}
+
+.desc-title {
+	font-family: "Merriweather", sans-serif;
+	color: #777777;
+	margin: 25px 0 5px 0;
+	font-size: 30px;
+	font-weight: 400;
+}
+
+.desc {
+	margin: 0;
+	text-align: justify;
+	line-height: 30px;
+	font-family: "Merriweather", sans-serif;
+	font-size: 20px;
+	color: #131313;
+}
+
+.price, .price span {
+	height: 50px;
+	font-family: "Raleway", sans-serif;
+	font-weight: lighter;
+	font-size: 30px;
+	color: #474747;
+}
+
+	.price span {
+		font-family: "Trocchi", serif;
+		font-weight: 600;
+		height: 50px;
+		font-size: 50px !important;
+	}
+
+button {
+	margin: 0 auto;
+	height: 50px;
+	width: 100%;
+	box-sizing: border-box;
+	border: transparent;
+	border-radius: 60px;
+	font-family: "Raleway", sans-serif;
+	font-size: 25px;
+	font-weight: 500;
+	text-transform: uppercase;
+	letter-spacing: 0.2em;
+	color: #ffffff;
+	background-color: #94B599;
+	cursor: pointer;
+	outline: none;
+	transition: 1s;
+}
+
+	button:hover {
+		transition: 0.5s;
+		background-color: #2A8237;
+	}
