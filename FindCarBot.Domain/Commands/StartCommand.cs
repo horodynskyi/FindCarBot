@@ -30,8 +30,6 @@ namespace FindCarBot.Domain.Commands
                 {
                     new[]
                     {
-                        new KeyboardButton("Main"),
-                        new KeyboardButton("Help"),
                         new KeyboardButton("Search")
                     }
                 }

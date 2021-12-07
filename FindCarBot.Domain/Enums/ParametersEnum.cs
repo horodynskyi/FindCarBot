@@ -5,12 +5,11 @@
        
         Manufacture,
         Fuel,
-       // Mark,
         GearBox,
         BodyStyle,
         DriverType,
-       // ModelAuto,
-        Dates,
-        PriceRange
+        PriceRange,
+        Dates
+        
     }
 }

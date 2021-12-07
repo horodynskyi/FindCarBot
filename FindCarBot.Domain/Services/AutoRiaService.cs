@@ -98,9 +98,6 @@ namespace FindCarBot.Domain.Services
                     return await GetMarks();
                 case Manufacture:
                     return await GetManufacture();
-                case Dates:
-                    return await GetDates();
-                
                 default: return Array.Empty<BaseModel>();
             }
         }

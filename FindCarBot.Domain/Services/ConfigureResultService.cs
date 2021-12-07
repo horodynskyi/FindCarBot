@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using FindCarBot.Domain.Abstractions;
 using FindCarBot.Domain.Models;
@@ -30,10 +31,15 @@ namespace FindCarBot.Domain.Services
         }
         public async Task Result(ITelegramBotClient client, long chatId,IEnumerable<AdInfoResponse> adInfo)
         {
-            foreach (var item in adInfo)
+            if (adInfo.Count() == 0)
             {
-                await client.SendPhotoAsync(chatId, item.GetPhoto() ,item.ToString(),replyMarkup:CreateReplyMarkup(item.GetLink(_options),item.MarkName,item.ModelName));
+                await client.SendTextMessageAsync(chatId, "Sorry, I can't find cars by your parameters");
             }
+            else 
+                foreach (var item in adInfo)
+                {
+                    await client.SendPhotoAsync(chatId, item.GetPhoto() ,item.ToString(),replyMarkup:CreateReplyMarkup(item.GetLink(_options),item.MarkName,item.ModelName));
+                }
             
         }
     }

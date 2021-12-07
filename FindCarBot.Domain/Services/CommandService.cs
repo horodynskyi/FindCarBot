@@ -19,8 +19,6 @@ namespace FindCarBot.Domain.Services
         {
             _commands = new List<TelegramCommand>
             {
-                new HelpCommand(),
-                new MainCommand(),
                 new StartCommand(), 
                 new SearchCommand(service),
                 new DeleteCacheCommand(cache)

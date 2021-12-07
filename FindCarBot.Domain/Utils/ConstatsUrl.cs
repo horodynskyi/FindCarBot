@@ -14,8 +14,8 @@ namespace FindCarBot.Domain.Utils
                 return $"{options.Url}/search?api_key={options.Token}" +
                        $"&category_id=1" +
                        $"&brandOrigin[0]={model.Manufacture.Value}" +
-                       $"&s_yers[1]={model.Dates.Value}" +
-                       $"&po_yers[1]={model.Dates.Value}" +
+                       $"&s_yers[1]={model.Dates.StartYears}" +
+                       $"&po_yers[1]={model.Dates.EndYears}" +
                        $"&bodystyle[0]={model.BodyStyle.Value}" +
                        $"price_ot = {model.PriceRange.StartPrice}" +
                        $"price_do = {model.PriceRange.EndPrice}" +

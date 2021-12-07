@@ -42,41 +42,56 @@ namespace FindCarBot.Domain.Services
         
         public async Task<bool> Contains(Message message)
         {
-            _model = await CacheModel.TryGetCache(_cache, message.Chat.Id);
-            foreach (var item in (ParametersEnum[]) Enum.GetValues(typeof(ParametersEnum)))
-            {
-                Type type = Type.GetType($"FindCarBot.Domain.Models.{item.ToString()}");
-                if (type != null)
+            try
+            { 
+                _model = await CacheModel.TryGetCache(_cache, message.Chat.Id);
+                foreach (var item in (ParametersEnum[]) Enum.GetValues(typeof(ParametersEnum)))
                 {
-                    IEnumerable<BaseModel> userButtons;
-                    if (item.ToString() == ParametersEnum.PriceRange.ToString())
+                    Type type = Type.GetType($"FindCarBot.Domain.Models.{item.ToString()}");
+                    if (type != null)
                     {
-                        if (_model.FieldsIsNull())
+                        IEnumerable<BaseModel> userButtons;
+                        if (item.ToString() == "PriceRange" && _model.Next() is PriceRange)
                         {
-                            var prices = message.Text.Split("-");
-                            _model.SetField(new PriceRange(prices[0],prices[1]));
+                            if (_model.FieldsIsNull())
+                            {
+                                var values = message.Text.Split("-");
+                                _model.SetField(new PriceRange(values[0],values[1]));
+                                await CacheModel.SetCache(_cache, _model,_options);
+                                return await Task.FromResult(true);
+                            }
+                        }
+                        else if (item.ToString() == "Dates" && _model.Next() is Dates)
+                        {
+                            var values = message.Text.Split("-");
+                            _model.SetField(new Dates(values[0],values[1]));
                             await CacheModel.SetCache(_cache, _model,_options);
                             return await Task.FromResult(true);
                         }
-                    }
-                    else
-                    {
-                        userButtons = await _riaService.GetParameters(Activator.CreateInstance(type));
-                        foreach (var userItem in userButtons)
+                        else
                         {
-                            if (message.Text == userItem.Name)
+                            userButtons = await _riaService.GetParameters(Activator.CreateInstance(type));
+                            foreach (var userItem in userButtons)
                             {
-                                if (_model.FieldsIsNull())
+                                if (message.Text == userItem.Name)
                                 {
-                                    _model.SetField(userItem);
-                                    await CacheModel.SetCache(_cache, _model,_options);
-                                    return await Task.FromResult(true);
+                                    if (_model.FieldsIsNull())
+                                    {
+                                        _model.SetField(userItem);
+                                        await CacheModel.SetCache(_cache, _model,_options);
+                                        return await Task.FromResult(true);
+                                    }
                                 }
                             }
                         }
                     }
                 }
             }
+            catch (Exception e)
+            {
+                await _client.SendTextMessageAsync(message.Chat.Id, "Something wrong");
+            }
+            
             return await Task.FromResult(false);
         }
         public async Task Execute(Message message)

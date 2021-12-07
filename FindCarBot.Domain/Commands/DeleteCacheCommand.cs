@@ -9,7 +9,7 @@ namespace FindCarBot.Domain.Commands
 {
     public class DeleteCacheCommand: TelegramCommand
     {
-        public override string Name { get; } = "/deleteCache";
+        public override string Name { get; } = "/deletecache";
         private readonly IDistributedCache _cache;
 
         public DeleteCacheCommand(IDistributedCache cache)
