@@ -13,6 +13,7 @@ namespace FindCarBot.Domain.Abstractions
         Task<IEnumerable<GearBox>> GetGearBoxes();
         Task<IEnumerable<DriverType>> GetDriverTypes();
         Task<IEnumerable<Manufacture>> GetManufacture();
+        Task<IEnumerable<Dates>> GetDates();
         Task<IEnumerable<ModelAuto>> GetModelAuto(int value);
         Task<IEnumerable<BaseModel>> GetParameters<T>(T entity);
 

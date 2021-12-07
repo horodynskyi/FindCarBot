@@ -8,22 +8,21 @@ namespace FindCarBot.Domain.Models
     public class PickedParameters
     {
         public long Id { get; set; }
-        private Mark Mark { get; set; }
-        private BodyStyle BodyStyle { get; set; }
-        private DriverType DriverType { get; set; }
-        private Fuel Fuel { get; set; }
-        private GearBox GearBox { get; set; }
-        private ModelAuto ModelAuto { get; set; }
-        private Manufacture Manufacture { get; set; }
+      //  public Mark Mark { get; set; }
+        public BodyStyle BodyStyle { get; set; }
+        public DriverType DriverType { get; set; }
+        public Fuel Fuel { get; set; }
+        public GearBox GearBox { get; set; }
+       // public ModelAuto ModelAuto { get; set; }
+        public Manufacture Manufacture { get; set; }
+        public Dates Dates { get; set; }
+        public PriceRange PriceRange { get; set; }
 
-        public Mark GetMark()
-        {
-            return Mark;
-        }
+ 
         public bool FieldsIsNull()
         {
-            if (Mark == null)
-                return true;
+            /*if (Mark == null)
+                return true;*/
             if (BodyStyle == null)
                 return true;
             if (DriverType == null)
@@ -32,10 +31,15 @@ namespace FindCarBot.Domain.Models
                 return true;
             if (GearBox == null)
                 return true;
-            if (ModelAuto == null)
-                return true;
+            /*if (ModelAuto == null)
+                return true;*/
             if (Manufacture == null)
                 return true;
+            if (Dates == null)
+                return true;
+            if (PriceRange == null)
+                return true;
+            
             return false;
         }
 
@@ -48,8 +52,8 @@ namespace FindCarBot.Domain.Models
         {
             if (Fuel == null)
                 return new Fuel();
-            if (Mark == null)
-                return new Mark();
+            /*if (Mark == null)
+                return new Mark();*/
             if (GearBox == null)
                 return new GearBox();
             if (BodyStyle == null)
@@ -57,9 +61,14 @@ namespace FindCarBot.Domain.Models
             if (DriverType == null)
                 return new DriverType();
             if (Manufacture == null)
-                return new Manufacture();
-            if (ModelAuto == null || Mark!=null)
-                return new ModelAuto();
+                return new Manufacture(); 
+            if (Dates == null)
+                return new Dates();
+            /*if (ModelAuto == null && Mark!=null)
+                return new ModelAuto();*/
+            if (PriceRange == null)
+                return new PriceRange();
+            
             return null;
         }
 
@@ -74,9 +83,9 @@ namespace FindCarBot.Domain.Models
                 case Models.Manufacture:
                     str = $"Choose country of manufacture:";
                     break;
-                case Models.Mark:
+                /*case Models.Mark:
                     str = $"Type here to search mark of auto:";
-                    break;
+                    break;*/
                 case Models.DriverType:
                     str = $"Choose type of driver:";
                     break;
@@ -86,8 +95,15 @@ namespace FindCarBot.Domain.Models
                 case Models.GearBox:
                     str = $"Choose type of gearbox:";
                     break;
-                case Models.ModelAuto:
+                case Models.Dates:
+                    str = $"Choose year of manufacture:";
+                    break;
+                
+                /*case Models.ModelAuto:
                     str = $"Type here to search model of auto:";
+                    break;*/
+                case Models.PriceRange:
+                    str = $"Type price range format is (num-num):";
                     break;
                 default: return null;
                     
@@ -96,22 +112,59 @@ namespace FindCarBot.Domain.Models
         }
 
 
-        public void SetField(string str, BaseModel baseModel)
+        public void SetField(BaseModel baseModel)
         {
-            if (str == "Mark")
+            switch (baseModel)
+            {
+                case Models.GearBox box:
+                    GearBox = box;
+                    break;
+                case Models.DriverType type:
+                    DriverType = type;
+                    break;
+                case Models.Fuel fuel:
+                    Fuel = fuel;
+                    break;
+                case Models.BodyStyle style:
+                    BodyStyle = style;
+                    break;
+                /*case Models.Mark mark:
+                    Mark = mark;
+                    break;*/
+                case Models.Manufacture model:
+                    Manufacture = model;
+                    break;
+                case Models.Dates dates:
+                    Dates = dates;
+                    break;
+                case Models.PriceRange range:
+                    PriceRange = range;
+                    break;
+            }
+            /*if (baseModel is Mark)
+            {
+                
+            }
+            if (str == Mark.Name)
                 Mark = (Mark) baseModel;
-            if (str == "BodyStyle")
+            if (str == BodyStyle.Name)
                 BodyStyle = (BodyStyle) baseModel;
-            if (str == "DriverType")
+            if (str == DriverType.Name)
                 DriverType = (DriverType) baseModel;
-            if (str == "Fuel")
+            if (str == Fuel.Name)
                 Fuel = (Fuel) baseModel;
-            if (str == "GearBox")
+            if (str == GearBox.Name)
                 GearBox = (GearBox) baseModel;
-            if (str == "ModelAuto")
+            if (str == ModelAuto.Name)
                 ModelAuto = (ModelAuto) baseModel;
-            if (str == "Manufacture")
+            if (str == Dates.Name)
+                Dates = (Dates) baseModel;
+            if (str == nameof(Manufacture))
                 Manufacture = (Manufacture) baseModel;
+            if (str == nameof(PriceRange))
+            {
+                
+            }*/
         }
     }
 }

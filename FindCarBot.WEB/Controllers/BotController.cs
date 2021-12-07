@@ -34,7 +34,7 @@ namespace FindCarBot.WEB.Controllers
             if (update == null) return Ok();
 
             var message = update.Message;
-            
+          // await _handleService.Execute(message);
             if (_commandService.Contains(message,_client))
             {
                 await _commandService.Execute(message);

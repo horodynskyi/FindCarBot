@@ -35,7 +35,7 @@ namespace FindCarBot.WEB.Controllers
         [HttpGet("tests")]
         public async Task<IActionResult> GetTest()
         {
-            var result = await _service.CreateRequest();
+            var result = await _service.CreateRequest(new PickedParameters());
             return Ok(result);
         }
         
@@ -43,6 +43,12 @@ namespace FindCarBot.WEB.Controllers
         public async Task<IActionResult> GetBodyStyles()
         {
             var result = await _riaService.GetBodyStyles();
+            return Ok(result.OrderBy(x=>x.Value));
+        }
+        [HttpGet("modelAuto")]
+        public async Task<IActionResult> GetAutoModel()
+        {
+            var result = await _riaService.GetModelAuto(79);
             return Ok(result.OrderBy(x=>x.Value));
         }
         

@@ -6,10 +6,10 @@ namespace FindCarBot.Domain.Models
 {
     public static class CacheModel
     {
-        public static async Task SetCache(IDistributedCache cache,PickedParameters model)
+        public static async Task SetCache(IDistributedCache cache,PickedParameters model, DistributedCacheEntryOptions options)
         {
             var ser = JsonConvert.SerializeObject(model);
-            await cache.SetStringAsync(model.Id.ToString(),ser);
+            await cache.SetStringAsync(model.Id.ToString(),ser,options);
         }
         public static async Task<PickedParameters> TryGetCache(IDistributedCache cache, long id)
         {

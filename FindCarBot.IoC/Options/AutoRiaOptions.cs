@@ -8,5 +8,6 @@ namespace FindCarBot.IoC.Options
 
         public string Token { get; set; } = String.Empty;
         public string Url { get; set; } = String.Empty;
+        public string AutoRiaViewUrl { get; set; } = String.Empty;
     }
 }

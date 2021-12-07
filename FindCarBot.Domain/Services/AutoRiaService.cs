@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
@@ -59,12 +60,27 @@ namespace FindCarBot.Domain.Services
                 $"{Options.Url}/countries?api_key={Options.Token}");
         }
 
+        public async Task<IEnumerable<Dates>> GetDates()
+        {
+            var years = GetYears();
+            List<Dates> list = new List<Dates>();
+            foreach (var item in years)
+            {
+                list.Add(new Dates(){Name = item.ToString(),Value = item});
+            }
+
+            return list;
+        }
+
         public async Task<IEnumerable<ModelAuto>> GetModelAuto(int value)
         {
             return await HttpClient.GetFromJsonAsync<IEnumerable<ModelAuto>>(
                 $"{Options.Url}/categories/1/marks/{value}/models?api_key={Options.Token}");
         }
 
+        public  IEnumerable<int> GetYears() => Enumerable.Range(1930,DateTime.Now.Year-1930+1);
+            
+        
         public async Task<IEnumerable<BaseModel>> GetParameters<T>(T entity)
         {
             
@@ -82,6 +98,9 @@ namespace FindCarBot.Domain.Services
                     return await GetMarks();
                 case Manufacture:
                     return await GetManufacture();
+                case Dates:
+                    return await GetDates();
+                
                 default: return Array.Empty<BaseModel>();
             }
         }
