@@ -1,8 +1,9 @@
 ﻿using System.Threading.Tasks;
+using FindCarBot.Domain.Models;
 using Microsoft.Extensions.Caching.Distributed;
 using Newtonsoft.Json;
 
-namespace FindCarBot.Domain.Models
+namespace FindCarBot.Domain.Utils
 {
     public static class CacheModel
     {
@@ -20,6 +21,11 @@ namespace FindCarBot.Domain.Models
                 return model;
             }
             return new PickedParameters(){Id = id};
+        }
+
+        public static async Task Remove(IDistributedCache cache, PickedParameters model)
+        {
+            await cache.RemoveAsync(model.Id.ToString());
         }
     }
 }

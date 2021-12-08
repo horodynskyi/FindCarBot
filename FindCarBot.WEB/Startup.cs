@@ -30,6 +30,7 @@ namespace FindCarBot.WEB
             services.AddTransient<ISearchService, SearchService>();
             services.AddTransient<IHandleService, HandleService>();
             services.AddTransient<IConfigureResultService, ConfigureResultService>();
+            services.AddTransient<ICallBackService, CallBackService>();
             services.AddMemoryCache();
             services.AddHttpClient();
             services.AddStackExchangeRedisCache(opt =>

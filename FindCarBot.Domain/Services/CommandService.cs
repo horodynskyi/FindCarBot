@@ -15,13 +15,14 @@ namespace FindCarBot.Domain.Services
         private readonly List<TelegramCommand> _commands;
         private  ITelegramBotClient _client;
         private TelegramCommand _currentCommand;
-        public CommandService(ISearchService service,IDistributedCache cache)
+        public CommandService(ISearchService service,IDistributedCache cache,IConfigureResultService resultService)
         {
             _commands = new List<TelegramCommand>
             {
                 new StartCommand(), 
                 new SearchCommand(service),
-                new DeleteCacheCommand(cache)
+                new DeleteCacheCommand(cache),
+                new BagCommand(cache,resultService)
             };
         }
 
@@ -37,10 +38,8 @@ namespace FindCarBot.Domain.Services
                     return true;
                 }
             }
-
             return false;
         }
-
         public async Task Execute(Message message)
         {
             await _currentCommand.Execute(message, _client);
