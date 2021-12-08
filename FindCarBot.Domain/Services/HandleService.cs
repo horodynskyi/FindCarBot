@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using FindCarBot.Domain.Abstractions;
 using FindCarBot.Domain.Enums;
 using FindCarBot.Domain.Models;
+using FindCarBot.Domain.Utils;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Caching.Memory;
 using Newtonsoft.Json;
@@ -91,7 +92,6 @@ namespace FindCarBot.Domain.Services
             {
                 await _client.SendTextMessageAsync(message.Chat.Id, "Something wrong");
             }
-            
             return await Task.FromResult(false);
         }
         public async Task Execute(Message message)
@@ -102,15 +102,17 @@ namespace FindCarBot.Domain.Services
             {
                 _buttons = await _service.GetSearchButtons(param);
                 var replyMessage = _model.GetMessageFromField(param);
-               
                 await _client.SendTextMessageAsync(message.Chat.Id, replyMessage,
                     parseMode: ParseMode.Html,replyMarkup:_buttons);
             }
             else
             {
                 var adsInfo = await _service.CreateRequest(_model);
-                await _resultService.Result(_client, message.Chat.Id, adsInfo);
-                _cache.Remove(_model.Id.ToString());
+                var ads = adsInfo.OrderBy(x => x.USD)
+                    .Where(x => x.USD < _model.PriceRange.EndPrice && x.USD > _model.PriceRange.StartPrice)
+                    .ToList();
+                await _resultService.Result(_client,_cache,message.Chat.Id, ads);
+              //  _cache.Remove(_model.Id.ToString());
             }
         }
     }

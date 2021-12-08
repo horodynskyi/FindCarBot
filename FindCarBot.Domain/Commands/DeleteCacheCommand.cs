@@ -20,6 +20,7 @@ namespace FindCarBot.Domain.Commands
         {
             await _cache.RemoveAsync(message.Chat.Id.ToString());
             await client.SendTextMessageAsync(message.Chat.Id, "Cache deleted!");
+            
         }
 
         public override bool Contains(Message message)

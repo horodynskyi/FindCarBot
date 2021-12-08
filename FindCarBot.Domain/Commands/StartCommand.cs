@@ -13,10 +13,8 @@ namespace FindCarBot.Domain.Commands
 
         public override bool Contains(Message message)
         {
-            var str = message.Text;
             if (message.Type != MessageType.Text)
                 return false;
-
             return message.Text.Contains(Name);
         }
 

@@ -11,7 +11,7 @@ namespace FindCarBot.Domain.Utils
         {
             public static string GetAdIds(PickedParameters model, AutoRiaOptions options)
             {
-                return $"{options.Url}/search?api_key={options.Token}" +
+                return $"{options.Url}search?api_key={options.Token}" +
                        $"&category_id=1" +
                        $"&brandOrigin[0]={model.Manufacture.Value}" +
                        $"&s_yers[1]={model.Dates.StartYears}" +
@@ -23,7 +23,7 @@ namespace FindCarBot.Domain.Utils
                        $"&type[0]={model.Fuel.Value}" +
                        $"&gearbox[0]={model.GearBox.Value}" +
                        $"&power_name=1" +
-                       $"&countpage=10" +
+                       $"&countpage=50" +
                        $"&with_photo=1";
             }
 

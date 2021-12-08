@@ -35,7 +35,7 @@ namespace FindCarBot.Domain.Utils
         public override string ToString()
         {
             var str = $"Mark:{MarkName}\nModel:{ModelName}\nFuel:{AutoData.FuelName}\n" +
-                      $"Gearbox:{AutoData.GearboxName}\nPrice:{USD}$";
+                      $"Gearbox:{AutoData.GearboxName}\nPrice:{USD}$\nYear:{AutoData.Year}";
             return str;
         }
 
@@ -46,6 +46,11 @@ namespace FindCarBot.Domain.Utils
         public string GetLink(AutoRiaOptions options)
         {
             return $"{options.AutoRiaViewUrl}{LinkToView}";
+        }
+
+        public string CrateCacheKey()
+        {
+            return $"{MarkName}/{ModelName}/{AutoData.Year}/{USD}";
         }
     }
     public class AutoData

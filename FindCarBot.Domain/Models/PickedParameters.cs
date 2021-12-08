@@ -1,9 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
-using Microsoft.Extensions.Caching.Distributed;
-using Newtonsoft.Json;
-
-namespace FindCarBot.Domain.Models
+﻿namespace FindCarBot.Domain.Models
 {
     public class PickedParameters
     {
@@ -68,25 +63,25 @@ namespace FindCarBot.Domain.Models
             switch (model)
             {
                 case Models.Fuel:
-                    str = $"Choose type of fuel:";
+                    str = "Choose type of fuel:";
                     break;
                 case Models.Manufacture:
-                    str = $"Choose country of manufacture:";
+                    str = "Choose country of manufacture:";
                     break;
                 case Models.DriverType:
-                    str = $"Choose type of driver:";
+                    str = "Choose type of driver:";
                     break;
                 case Models.BodyStyle:
-                    str = $"Choose type of body:";
+                    str = "Choose type of body:";
                     break;
                 case Models.GearBox:
-                    str = $"Choose type of gearbox:";
+                    str = "Choose type of gearbox:";
                     break;
                 case Models.Dates:
-                    str = $"Type range of years format is (yyyy-yyyy):";
+                    str = "Type range of years format is (yyyy-yyyy):";
                     break;
                 case Models.PriceRange:
-                    str = $"Type range of price format is (num-num):";
+                    str = "Type range of price format is (num-num):";
                     break;
                 default: return null;
                     
@@ -98,25 +93,25 @@ namespace FindCarBot.Domain.Models
         {
             switch (baseModel)
             {
-                case Models.GearBox box:
+                case GearBox box:
                     GearBox = box;
                     break;
-                case Models.DriverType type:
+                case DriverType type:
                     DriverType = type;
                     break;
-                case Models.Fuel fuel:
+                case Fuel fuel:
                     Fuel = fuel;
                     break;
-                case Models.BodyStyle style:
+                case BodyStyle style:
                     BodyStyle = style;
                     break;
-                case Models.Manufacture model:
+                case Manufacture model:
                     Manufacture = model;
                     break;
-                case Models.Dates dates:
+                case Dates dates:
                     Dates = dates;
                     break;
-                case Models.PriceRange range:
+                case PriceRange range:
                     PriceRange = range;
                     break;
             }
