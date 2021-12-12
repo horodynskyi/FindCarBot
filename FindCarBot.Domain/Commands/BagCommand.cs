@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using FindCarBot.Domain.Abstractions;
 using FindCarBot.Domain.Utils;
@@ -26,7 +27,7 @@ public class BagCommand:TelegramCommand
     public override async Task Execute(Message message, ITelegramBotClient client)
     {
         var ser = await _cache.GetStringAsync($"bag/{message.From.Id}");
-        if (ser == null)
+        if (!JsonConvert.DeserializeObject<IEnumerable<AdInfoResponse>>(ser).Any())
         {
             await client.SendTextMessageAsync(message.Chat.Id,"I can't find your bag.\nSomething wrong or bag is empty");
         }

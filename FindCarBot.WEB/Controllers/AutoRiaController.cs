@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using FindCarBot.Domain.Abstractions;
 using FindCarBot.Domain.Models;
 using Microsoft.AspNetCore.Mvc;
+using StackExchange.Redis;
 
 namespace FindCarBot.WEB.Controllers
 {
@@ -13,11 +14,13 @@ namespace FindCarBot.WEB.Controllers
     {
         private readonly IAutoRiaService _riaService;
         private readonly ISearchService _service;
+        private readonly IConnectionMultiplexer _server;
 
-        public AutoRiaController(IAutoRiaService riaService, ISearchService service)
+        public AutoRiaController(IAutoRiaService riaService, ISearchService service,IConnectionMultiplexer server)
         {
             _riaService = riaService;
             _service = service;
+            _server = server;
         }
 
         [HttpGet("marks")]
@@ -35,8 +38,11 @@ namespace FindCarBot.WEB.Controllers
         [HttpGet("tests")]
         public async Task<IActionResult> GetTest()
         {
-            var result = await _service.CreateRequest(new PickedParameters());
-            return Ok(result);
+            var keys = _server.GetServer("localhost", 6379).Keys();
+            var db = _server.GetDatabase();
+            var keysList = keys.Select(key => (string) key).ToList();
+            var result = _server.IsConnected;
+            return Ok(keysList);
         }
         
         [HttpGet("bodystyles")]
