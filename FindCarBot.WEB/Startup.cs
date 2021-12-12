@@ -11,6 +11,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json.Serialization;
+using StackExchange.Redis;
 
 namespace FindCarBot.WEB
 {
@@ -31,13 +32,22 @@ namespace FindCarBot.WEB
             services.AddTransient<IHandleService, HandleService>();
             services.AddTransient<IConfigureResultService, ConfigureResultService>();
             services.AddTransient<ICallBackService, CallBackService>();
+           
             services.AddMemoryCache();
             services.AddHttpClient();
             services.AddStackExchangeRedisCache(opt =>
             {
-                opt.Configuration = "localhost:6379";
+               opt.Configuration = "localhost:6379";
+                
             });
-           // services.Configure<BotOptions>(_configuration.GetSection(BotOptions.Bot));
+            var configuration = new ConfigurationOptions()
+            {
+                //for the redis pool so you can extent later if needed
+                EndPoints = {  "localhost:6379" },
+                AllowAdmin = true,
+                //Password = "", //to the security for the production
+            };
+            services.AddSingleton<IConnectionMultiplexer>(ConnectionMultiplexer.Connect(configuration));
             services.Configure<AutoRiaOptions>(_configuration.GetSection(AutoRiaOptions.AutoRia));
           
             services.AddTelegramBotClient(_configuration);

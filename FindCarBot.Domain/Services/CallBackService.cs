@@ -35,7 +35,7 @@ public class CallBackService:ConfigureResultService,ICallBackService
     {
         for (int i = 1; i <= 3; i++)
         {
-            if (callbackQuery.Data ==$"message/result/{callbackQuery.From.Id}/{i}")
+            if (callbackQuery.Data == $"message/result/{callbackQuery.From.Id}/{i}")
             {
                 return true;
             }
@@ -44,26 +44,61 @@ public class CallBackService:ConfigureResultService,ICallBackService
     }
     private async Task AddToBag(CallbackQuery callbackQuery)
     {
-        var ser = await _cache.GetStringAsync(callbackQuery.Data);
-        var adInfo = JsonConvert.DeserializeObject<AdInfoResponse>(ser);
-        await _cache.RemoveAsync(callbackQuery.Data);
-        var autoBag = JsonConvert.DeserializeObject<List<AdInfoResponse>>(
-                await _cache.GetStringAsync($"bag/{callbackQuery.From.Id}")) ?? new List<AdInfoResponse>();
-        await _cache.RemoveAsync($"bag/{callbackQuery.From.Id}");
-        autoBag.Add(adInfo);
-        await _cache.SetStringAsync($"bag/{callbackQuery.From.Id}",JsonConvert.SerializeObject(autoBag));
+        var str = callbackQuery.Data.Split("/");
+        if (str != null)
+        {
+            var ind = str.LastOrDefault();
+            var adInfo = JsonConvert.DeserializeObject<AdInfoResponse>(await _cache.GetStringAsync($"{callbackQuery.From.Id}/{ind}"));
+            await _cache.RemoveAsync(callbackQuery.Data);
+            List<AdInfoResponse> autoBag;
+            var autoBagSer = await _cache.GetStringAsync($"bag/{callbackQuery.From.Id}");
+            if (autoBagSer == null)
+            {
+                autoBag = new List<AdInfoResponse>();
+            }
+            else
+            {
+                autoBag = JsonConvert.DeserializeObject<List<AdInfoResponse>>(autoBagSer);
+                await _cache.RemoveAsync($"bag/{callbackQuery.From.Id}");
+            }
+            autoBag.Add(adInfo);
+            await _cache.SetStringAsync($"bag/{callbackQuery.From.Id}",JsonConvert.SerializeObject(autoBag));
+        }
+     
+    }
+    private async Task RemoveFromBag(CallbackQuery callbackQuery, ITelegramBotClient client)
+    {
+        var str = callbackQuery.Data.Split("/");
+        if (str != null)
+        {
+            var ind = str.LastOrDefault();
+            var bagInfoSer = await _cache.GetStringAsync($"bag/{callbackQuery.From.Id}");
+            if (bagInfoSer != null)
+            {
+                var bagInfo = JsonConvert.DeserializeObject<List<AdInfoResponse>>(bagInfoSer);
+                bagInfo.Remove(bagInfo.ElementAt(Convert.ToInt32(ind)));
+                await _cache.RemoveAsync($"bag/{callbackQuery.From.Id}");
+                await _cache.SetStringAsync($"bag/{callbackQuery.From.Id}",JsonConvert.SerializeObject(bagInfo));
+                await client.DeleteMessageAsync(callbackQuery.From.Id, callbackQuery.Message.MessageId);
+            }
+        }
     }
     public async Task ProccesCallback(ITelegramBotClient client, CallbackQuery callbackQuery)
     {
         if (callbackQuery.Data == "next")
         {
             await Pagination(client, callbackQuery.From.Id);
-            await client.AnswerCallbackQueryAsync(callbackQuery.Id);
+            await client.AnswerCallbackQueryAsync(callbackQuery.Id,cacheTime:1);
         }
         if (IsCallBack(callbackQuery))
         {
             await AddToBag(callbackQuery);
-            await client.AnswerCallbackQueryAsync(callbackQuery.Id,"Added to bag");
+            await client.AnswerCallbackQueryAsync(callbackQuery.Id,"Added to bag",true,cacheTime:1);
+        }
+
+        if (callbackQuery.Data.Contains($"bag/{callbackQuery.From.Id}"))
+        {
+            await RemoveFromBag(callbackQuery, client);
         }
         else await client.AnswerCallbackQueryAsync(callbackQuery.Id);
     }
